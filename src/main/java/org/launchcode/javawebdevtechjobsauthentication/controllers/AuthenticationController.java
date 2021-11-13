@@ -56,7 +56,7 @@ public class AuthenticationController {
             model.addAttribute("title", "Register");
             return "register";
         }
-    User existingUser = userRepository.findByUsername(registerFormDTO.getName());
+    User existingUser = userRepository.findByUsername(registerFormDTO.getUsername());
         // should this be username
 
     if (existingUser != null){
@@ -71,7 +71,7 @@ public class AuthenticationController {
         model.addAttribute("title", "Register");
         return "register";
     }
-    User newUser = new User(registerFormDTO.getName(), registerFormDTO.getPassword());
+    User newUser = new User(registerFormDTO.getUsername(), registerFormDTO.getPassword());
     userRepository.save(newUser);
     setUserInSession(request.getSession(), newUser);
     return "redirect:";
@@ -92,7 +92,7 @@ public class AuthenticationController {
             return "login";
         }
 
-        User theUser = userRepository.findByUsername(loginFormDTO.getName());
+        User theUser = userRepository.findByUsername(loginFormDTO.getUsername());
         if (theUser == null){
             errors.rejectValue("username", "user.invalid", "This name does not exist");
             model.addAttribute("title", "Log In");
